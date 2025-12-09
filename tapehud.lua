@@ -50,10 +50,10 @@ end
 
 local config = {
 	active = "NO",
-	cockpit = "Tape",
+	cockpit = "Basic",
 }
 
-local public = {
+public = {
 	CCD1 = true,
 	manifest = {
 		"tapehud.lua",
@@ -105,6 +105,25 @@ local public = {
 
 		lib.log_error("Registered cockpit " .. default.name)
 		table.insert(private.registry, default)
+	end,
+	get_num_entries = function()
+		return #private.registry
+	end,
+	get_entry_table = function(id)
+		return private.registry[id]
+	end,
+	find_id_by_name = function(name)
+		local id = -1
+		for i, v in ipairs(private.registry) do
+			if v.name == name then
+				id = i
+				break
+			end
+		end
+		return id
+	end,
+	get_active_cockpit_id = function()
+		return public.find_id_by_name(config.cockpit)
 	end,
 }
 
