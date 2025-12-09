@@ -25,8 +25,12 @@ local mod_path = lib.get_path() or "plugins/tapehudredux/"
 local mod_ver = lib.mod_read_str(mod_path .. "tapehud.lua", nil, "modreg", "version")
 local mod_standalone = (mod_path == "plugins/tapehudredux/") and (gksys.IsExist(mod_path .. "tapehud.lua"))
 
+local he_ver = lib.get_latest("helium", "1.1.0", "1.5.9")
+local he = lib.get_class("helium", he_ver)
+
 local babel, lang_key, update_class, public
 local private = {}
+private.he = he
 private.bstr = function(id, val)
 	return val
 end
