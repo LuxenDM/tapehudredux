@@ -95,6 +95,7 @@ public = {
 			dynamic = "", --path to lua file for interactive objects or custom image placement
 			disable_scaling = "NO", --yes for no resizing
 			width = "640", --X resolution of primary image
+			width_interval = "128", --X resolution of stretch (assumes height matches)
 			height = "480", --Y resolution of primary image
 		}
 
