@@ -149,7 +149,9 @@ update_class = function()
 	public.smart_config = {
 		title = "Tapehud Redux",
 		cb = function(ref_key, new_value)
-
+			if config[ref_key] then
+				config[ref_key] = tostring(new_value)
+			end
 		end,
 		"active",
 		"cockpit",
@@ -159,10 +161,18 @@ update_class = function()
 		},
 		cockpit = {
 			type = "dropdown",
-			default = "empty",
+			default = 1,
 			[1] = "empty",
 		},
 	}
+
+	local cblist = public.smart_config.cockpit
+	for index, entry in ipairs(registry) do
+		cblist[index] = entry.name
+		if entry.name == config.cockpit then
+			cblist.default = index
+		end
+	end
 
 	lib.set_class("tapehud", mod_ver, public)
 end
