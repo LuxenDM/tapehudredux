@@ -130,6 +130,18 @@ public = {
 	get_active_cockpit_id = function()
 		return public.find_id_by_name(config.cockpit)
 	end,
+	make_preview_list = function()
+		local list = {}
+		for i, entry in ipairs(registry) do
+			table.insert(list, {
+				name = entry.name,
+				preview = entry.preview,
+				active = config.cockpit == entry.name,
+			})
+		end
+
+		return list
+	end,
 }
 
 update_class = function()
