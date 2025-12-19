@@ -44,10 +44,7 @@ public.generate_cockpit = function()
 		bgcolor = (not gksys.IsExist(active.primary) and "0 0 0 0 *") or nil,
 	}
 
-	--primary_width = scale to screen
-	local aspect_ratio = (gkinterface.GetYResolution() / tonumber(active.height))
-	local primary_width = aspect_ratio * tonumber(active.width)
-	local primary_height = aspect_ratio * tonumber(active.height)
+	local primary_width, primary_height = he.util.scale_to_target(active.width, active.height, gkinterface.GetYResolution(), false, 1)
 	primary_artifact.size = tostring(primary_width) .. "x" .. tostring(primary_height)
 
 	--todo: if width < screen width, add stretch images on left and right to compensate
