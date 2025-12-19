@@ -89,7 +89,6 @@ public = {
 			description = "",
 			preview = mod_path .. "assets/no_preview.png",
 			primary = "", --centered image
-			nineslice = "", --segmentation of centered image for single-image stretching
 			stretch_left = "", --infinite stretch left
 			stretch_right = "", --infinite stretch right
 			dynamic = "", --path to lua file for interactive objects or custom image placement
@@ -110,6 +109,8 @@ public = {
 
 		lib.log_error("Registered cockpit " .. default.name)
 		table.insert(private.registry, default)
+
+		update_class()
 	end,
 	get_num_entries = function()
 		return #private.registry
@@ -177,7 +178,25 @@ update_class = function()
 	lib.set_class("tapehud", mod_ver, public)
 end
 
-private.load_module = function() end --stub
+private.load_module = load_module = function(file_path)
+	lib.log_error("loading module " .. file_path, 1)
+	local valid_file_path = lib.find_file(file_path, mod_path .. "modules/" .. file_path)
+
+	if not valid_file_path then
+		error("unable to find file: " .. file_path)
+	end
+	
+	local file_f, err = loadfile(valid_file_path)
+	
+	if not file_f then
+		error("unable to load module: " .. err) --replace with appropriate reporting
+	else
+		local status, err_details = pcall(file_f, public, private, config)
+		if not status then
+			error("unable to execute module: " .. err_details)
+		end
+	end
+end
 
 private.load_module("constructor.lua") --creates active cockpit view
 private.load_module("injector.lua") --injects into default interface (non-default can pull from constructor)
